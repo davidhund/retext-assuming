@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+node_modules/
+retext-assuming.js
+retext-assuming.min.js

@@ -1,0 +1,52 @@
+{
+	"name": "retext-assuming",
+	"version": "1.0.0",
+	"description": "Check for unhelpful ‘assuming’ phrases such as ‘just’, ‘simply’ or ‘obviously’ with retext",
+	"main": "index.js",
+	"scripts": {
+		"pretest": "npm run lint",
+		"test": "tape test.js",
+		"lint": "xo",
+		"bundle": "browserify index.js --bare -s retextAssuming > retext-assuming.js",
+		"minify": "uglifyjs retext-assuming.js --compress --mangle --output retext-assuming.min.js",
+		"build": "npm run bundle && npm run minify"
+	},
+	"keywords": [
+		"retext",
+		"plugin",
+		"phrase",
+		"unhelpful",
+		"documentation",
+		"inclusive"
+	],
+	"author": "David Hund <david@valuedstandards.com> (https://valuedstandards.copm)",
+	"repository": "davidhund/retext-assuming",
+	"bugs": "https://github.com/davidhund/retext-assuming/issues",
+	"license": "MIT",
+	"files": [
+		"index.js",
+		"phrases.json"
+	],
+	"dependencies": {
+		"lodash.difference": "^4.5.0",
+		"nlcst-search": "^1.4.2",
+		"nlcst-to-string": "^2.0.1",
+		"quotation": "^1.1.0",
+		"unist-util-find-before": "^2.0.1"
+	},
+	"devDependencies": {
+		"browserify": "^14.5.0",
+		"retext": "^5.0.0",
+		"tape": "^4.8.0",
+		"to-vfile": "^2.1.2",
+		"uglify-js": "^3.1.6",
+		"vfile-reporter": "^4.0.0",
+		"xo": "^0.18.2"
+	},
+	"xo": {
+		"esnext": false,
+		"ignores": [
+			"retext-assuming.js"
+		]
+	}
+}
