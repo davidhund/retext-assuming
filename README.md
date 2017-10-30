@@ -59,7 +59,7 @@ example.txt
     4:1-4:9  warning  Avoid “Actually”, it's not helpful   no-actually   retext-assuming
   4:22-4:26  warning  Avoid “easy”, it's not helpful       no-easy       retext-assuming
 
-⚠ 3warnings
+⚠ 3 warnings
 ```
 
 ## API
@@ -67,6 +67,7 @@ example.txt
 ### `retext().use(dontAssume[, options])`
 
 Checks for unhelpful phrases such as “just”, “simply” or “obviously” in processed text.
+
 **NOTE** `dontAssume` is the assigned name of our `require`d module. You can name it however you like.
 
 ###### `options.phrases`
