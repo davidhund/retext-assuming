@@ -1,7 +1,8 @@
 # retext-assuming
 
+[![npm version](https://img.shields.io/npm/v/retext-assuming.svg)](https://npmjs.com/package/retext-assuming)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
-
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/davidhund/retext-assuming/master/LICENSE)
 
 Check for unhelpful ‘assuming’ phrases such as 'just', 'simply' or 'obviously' with [**retext**][retext].
 
@@ -13,6 +14,12 @@ Avoid:
 But use:
 
 > “To run the tests type `npm test`…”
+
+
+## Credits
+
+This plugin is based on the excellent [**retext**][retext] (plugins) by [Wooorm](https://twitter.com/wooorm/).
+Not much of this code is original and it probably could be much improved. PR's welcome 🚀
 
 
 ## Installation
