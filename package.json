@@ -28,7 +28,7 @@
 		"phrases.json"
 	],
 	"dependencies": {
-		"lodash.difference": "^4.5.0",
+		"lodash": ">= 4.17.5",
 		"nlcst-search": "^1.4.2",
 		"nlcst-to-string": "^2.0.1",
 		"quotation": "^1.1.0",

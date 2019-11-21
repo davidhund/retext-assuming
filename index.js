@@ -13,7 +13,7 @@ var search = require('nlcst-search');
 var toString = require('nlcst-to-string');
 var quotation = require('quotation');
 var findBefore = require('unist-util-find-before');
-var difference = require('lodash.difference');
+var difference = require('lodash/difference');
 
 var MODULENAME = 'retext-assuming';
 var PREFIX = 'Avoid';
