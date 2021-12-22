@@ -15,6 +15,7 @@ var quotation = require('quotation');
 var findBefore = require('unist-util-find-before');
 var difference = require('lodash/difference');
 
+var URL = 'https://github.com/davidhund/retext-assuming';
 var MODULENAME = 'retext-assuming';
 var PREFIX = 'Avoid';
 var SUFFIX = 'it\'s not helpful';
@@ -60,6 +61,7 @@ function dontAssume(options) {
 
 						info.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
 						info.source = MODULENAME;
+						info.url = URL;
 					}
 
 					return;
@@ -92,6 +94,7 @@ function dontAssume(options) {
 
 							qualifierInfo.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
 							qualifierInfo.source = MODULENAME;
+							qualifierInfo.url = URL;
 						}
 
 						return;
@@ -113,6 +116,7 @@ function dontAssume(options) {
 
 			message.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
 			message.source = MODULENAME;
+			message.url = URL;
 		}
 	}
 }
