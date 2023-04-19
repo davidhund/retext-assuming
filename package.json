@@ -41,7 +41,7 @@
 		"to-vfile": "^2.1.2",
 		"uglify-js": "^3.1.6",
 		"vfile-reporter": "^4.0.0",
-		"xo": "^0.18.2"
+		"xo": "^0.54.1"
 	},
 	"xo": {
 		"esnext": false,
