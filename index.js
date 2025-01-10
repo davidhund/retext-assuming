@@ -104,7 +104,7 @@ function dontAssume(options) {
 
 			var value = toString(match);
 
-			var message = file.warn([
+			var message = file.message([
 				PREFIX,
 				quotation(value, '“', '”') + ',',
 				SUFFIX
