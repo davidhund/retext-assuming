@@ -1,7 +1,6 @@
 # retext-assuming
 
 [![npm version](https://img.shields.io/npm/v/retext-assuming.svg)](https://npmjs.com/package/retext-assuming)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/davidhund/retext-assuming/master/LICENSE)
 
 Check for unhelpful ‘assuming’ phrases such as 'just', 'simply' or 'obviously' with [**retext**][retext].
@@ -44,15 +43,15 @@ Actually, it's quite easy to use.
 And our script, `example.js`, looks as follows:
 
 ```javascript
-var vfile = require('to-vfile');
-var report = require('vfile-reporter');
-var retext = require('retext');
-var dontAssume = require('retext-assuming');
+import { readSync } from "to-vfile";
+import { reporter } from "vfile-reporter";
+import { retext } from "retext";
+import dontAssume from "retext-assuming";
 
 retext()
   .use(dontAssume)
-  .process(vfile.readSync('example.txt'), function (err, file) {
-    console.error(report(err || file));
+  .process(readSync("example.txt"), function (err, file) {
+    console.error(reporter(err || file));
   });
 ```
 
@@ -60,13 +59,13 @@ Should result in:
 
 ```text
 example.txt
-   1:9-1:13  warning  Avoid “just”, it's not helpful       no-just       retext-assuming
+  1:9-1:13  warning  Avoid “just”, it's not helpful       no-just       retext-assuming
   2:15-2:21  warning  Avoid “simply”, it's not helpful     no-simply     retext-assuming
-   3:1-3:10  warning  Avoid “Obviously”, it's not helpful  no-obviously  retext-assuming
-    4:1-4:9  warning  Avoid “Actually”, it's not helpful   no-actually   retext-assuming
+  3:1-3:10  warning  Avoid “Obviously”, it's not helpful  no-obviously  retext-assuming
+  4:1-4:9  warning  Avoid “Actually”, it's not helpful   no-actually   retext-assuming
   4:22-4:26  warning  Avoid “easy”, it's not helpful       no-easy       retext-assuming
 
-⚠ 3 warnings
+⚠ 5 warnings
 ```
 
 ## API
@@ -75,7 +74,7 @@ example.txt
 
 Checks for unhelpful phrases such as “just”, “simply” or “obviously” in processed text.
 
-**NOTE** `dontAssume` is the assigned name of our `require`d module. You can name it however you like.
+**NOTE** `dontAssume` is the assigned name of our imported module. You can name it however you like.
 
 ###### `options.phrases`
 
