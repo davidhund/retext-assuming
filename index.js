@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Assuming is a retext plugin:
  *
@@ -9,31 +7,39 @@
  * (Build largely by looking at retext-simplify)
  */
 
-var search = require('nlcst-search');
-var toString = require('nlcst-to-string');
-var quotation = require('quotation');
-var findBefore = require('unist-util-find-before');
-var difference = require('lodash/difference');
+import difference from "lodash.difference";
+import { search } from "nlcst-search";
+import { toString as nlcstToString } from "nlcst-to-string";
+import { quotation } from "quotation";
+import { findBefore } from "unist-util-find-before";
+import defaultPhrases from "./phrases.json" with { type: "json" };
 
-var URL = 'https://github.com/davidhund/retext-assuming';
-var MODULENAME = 'retext-assuming';
-var PREFIX = 'Avoid';
-var SUFFIX = 'it\'s not helpful';
-var FINEPREFIX = 'PASS:';
-var FINESUFFIX = 'is probably fine';
-var NEGATIVES = ['never', 'not', 'can\'t', 'cannot', 'don\'t', 'couldn\'t', 'shouldn\'t', 'wouldn\'t'];
-var QUALIFIERS = ['that', 'very', 'too', 'so', 'quite', 'rather'];
+const URL = "https://github.com/davidhund/retext-assuming";
+const MODULENAME = "retext-assuming";
+const PREFIX = "Avoid";
+const SUFFIX = "it's not helpful";
+const FINEPREFIX = "PASS:";
+const FINESUFFIX = "is probably fine";
+const NEGATIVES = [
+	"never",
+	"not",
+	"can't",
+	"cannot",
+	"don't",
+	"couldn't",
+	"shouldn't",
+	"wouldn't",
+];
+const QUALIFIERS = ["that", "very", "too", "so", "quite", "rather"];
 
-module.exports = dontAssume;
-
-function dontAssume(options) {
+export default function dontAssume(options) {
 	// Options
-	var opts = options || {};
-	var phrases = opts.phrases || require('./phrases.json');
-	var ignore = opts.ignore || [];
-	var verbose = opts.verbose || false;
+	const opts = options || {};
+	const phrases = opts.phrases || defaultPhrases;
+	const ignore = opts.ignore || [];
+	const verbose = opts.verbose || false;
 
-	var list = difference(phrases, ignore);
+	const list = difference(phrases, ignore);
 
 	return transformer;
 
@@ -43,23 +49,26 @@ function dontAssume(options) {
 		function handleMatch(match, position, parent, phrase) {
 			// Make sure we're not actually meaning the *opposite*
 			//   "You [cannot|cant'|don't|etc..] simply assume..." => pass
-			var before = findBefore(parent, position, 'WordNode');
+			const before = findBefore(parent, position, "WordNode");
 
 			if (before) {
-				var beforeMatch = toString(before).toLowerCase();
+				const beforeMatch = nlcstToString(before).toLowerCase();
 
 				if (NEGATIVES.indexOf(beforeMatch) !== -1) {
 					if (verbose) {
-						var info = file.info([
-							FINEPREFIX,
-							quotation(beforeMatch + ' ' + toString(match), '“', '”'),
-							FINESUFFIX
-						].join(' '), {
-							start: before.position.start,
-							end: before.position.end
-						});
+						const info = file.info(
+							[
+								FINEPREFIX,
+								quotation(`${beforeMatch} ${nlcstToString(match)}`, "“", "”"),
+								FINESUFFIX,
+							].join(" "),
+							{
+								start: before.position.start,
+								end: before.position.end,
+							},
+						);
 
-						info.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
+						info.ruleId = `no-${phrase.replace(/\W+/g, "-")}`;
 						info.source = MODULENAME;
 						info.url = URL;
 					}
@@ -70,29 +79,36 @@ function dontAssume(options) {
 				// Make one more exception for qualifiers:
 				//   "It's not [that|very|too|so|quite|rather] simple" => pass
 				if (QUALIFIERS.indexOf(beforeMatch) !== -1) {
-					var negativeBeforeQualifier = findBefore(parent, before, function (e) {
+					const negativeBeforeQualifier = findBefore(parent, before, (e) => {
 						// @TODO:
 						// try (indexOf(NEGATIVES) !== -1)
 						// instead of hardcoded 'not'?
-						return toString(e).toLowerCase() === 'not';
+						return nlcstToString(e).toLowerCase() === "not";
 					});
 
 					if (negativeBeforeQualifier) {
 						if (verbose) {
-							var qualifierInfo = file.info([
-								FINEPREFIX,
-								quotation([
-									toString(negativeBeforeQualifier),
-									beforeMatch,
-									toString(match)
-								].join(' '), '“', '”'),
-								FINESUFFIX
-							].join(' '), {
-								start: before.position.start,
-								end: before.position.end
-							});
+							const qualifierInfo = file.info(
+								[
+									FINEPREFIX,
+									quotation(
+										[
+											nlcstToString(negativeBeforeQualifier),
+											beforeMatch,
+											nlcstToString(match),
+										].join(" "),
+										"“",
+										"”",
+									),
+									FINESUFFIX,
+								].join(" "),
+								{
+									start: before.position.start,
+									end: before.position.end,
+								},
+							);
 
-							qualifierInfo.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
+							qualifierInfo.ruleId = `no-${phrase.replace(/\W+/g, "-")}`;
 							qualifierInfo.source = MODULENAME;
 							qualifierInfo.url = URL;
 						}
@@ -102,19 +118,17 @@ function dontAssume(options) {
 				}
 			}
 
-			var value = toString(match);
+			const value = nlcstToString(match);
 
-			var message = file.message([
-				PREFIX,
-				quotation(value, '“', '”') + ',',
-				SUFFIX
-			].join(' '),
+			const message = file.message(
+				[PREFIX, `${quotation(value, "“", "”")},`, SUFFIX].join(" "),
 				{
 					start: match[0].position.start,
-					end: match[match.length - 1].position.end
-				});
+					end: match[match.length - 1].position.end,
+				},
+			);
 
-			message.ruleId = 'no-' + phrase.replace(/\W+/g, '-');
+			message.ruleId = `no-${phrase.replace(/\W+/g, "-")}`;
 			message.source = MODULENAME;
 			message.url = URL;
 		}
