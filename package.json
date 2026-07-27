@@ -40,7 +40,7 @@
 		"unist-util-find-before": "4.0.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.3",
+		"@biomejs/biome": "^2.5.4",
 		"retext": "9.0.0",
 		"tape": "5.10.2",
 		"to-vfile": "8.0.0",
